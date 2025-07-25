@@ -44,25 +44,20 @@ def get_github_client(installation_id):
         private_key = key_file.read()
     
     # Create GitHub App authentication
-    auth = Auth.AppAuth(
+    app_auth = Auth.AppAuth(
         app_id=os.environ.get('GITHUB_APP_ID'),
         private_key=private_key
     )
     
-    # Get installation access token
-    gi = Github(auth=auth)
-    installation = gi.get_app().get_installation(installation_id)
-    
-    # Create client with installation token
-    auth_token = Auth.AppInstallationAuth(
-        app_id=os.environ.get('GITHUB_APP_ID'),
-        private_key=private_key,
+    # Create installation authentication
+    auth = Auth.AppInstallationAuth(
+        app_auth=app_auth,
         installation_id=installation_id
     )
     
-    return Github(auth=auth_token)
+    return Github(auth=auth)
 
-async def review_with_gemini(content, filename):
+def review_with_gemini(content, filename):
     """Send code to Gemini for review."""
     api_key = os.environ.get('GEMINI_API_KEY')
     if not api_key:
