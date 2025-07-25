@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.py"
+    }
+  ],
+  "env": {
+    "GITHUB_APP_ID": "@github_app_id",
+    "GITHUB_INSTALLATION_ID": "@github_installation_id", 
+    "WEBHOOK_SECRET": "@webhook_secret",
+    "GEMINI_API_KEY": "@gemini_api_key"
+  }
+}
